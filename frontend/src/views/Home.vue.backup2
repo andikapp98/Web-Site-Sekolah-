@@ -1,0 +1,1617 @@
+<template>
+  <div class="home-wrapper">
+    <!-- Header / Navbar -->
+    <header class="header">
+      <nav class="navbar">
+        <div class="nav-container">
+          <div class="logo">
+            <img src="/LOGO BULAT PNG.png" alt="Logo SMK Yasmu Gresik" class="logo-img">
+          </div>
+          <ul class="nav-menu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#tentang">Tentang Kami</a></li>
+            <li><a href="#jurusan">Jurusan</a></li>
+            <li><a href="#pembelajaran">Pembelajaran</a></li>
+            <li><a href="#alumni">Alumni</a></li>
+          </ul>
+          <div class="nav-actions">
+            <button class="search-btn">🔍</button>
+            <a href="#kontak" class="contact-btn">Hubungi Kami</a>
+            <router-link to="/login" class="login-btn">Login Admin</router-link>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section with Slider -->
+    <main>
+      <section class="hero" id="home">
+        <div class="hero-header">
+          <h1 class="main-title">SMK YASMU GRESIK</h1>
+          <h2 class="main-subtitle">Disiplin Kunci Sukses & Berprestasi</h2>
+          <button class="btn-yellow">SPMB 2025</button>
+        </div>
+
+        <!-- Slider -->
+        <div class="slider">
+          <div class="slides">
+            <div 
+              v-for="(slide, index) in slides" 
+              :key="index"
+              class="slide"
+              :class="{ active: currentSlide === index }"
+            >
+              <img :src="slide.image" :alt="slide.title" class="slide-image">
+              <div class="slide-overlay"></div>
+              <div class="slide-caption">
+                <h3>{{ slide.title }}</h3>
+                <p>{{ slide.description }}</p>
+                <a href="#" class="btn-green">Selengkapnya</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slider Controls -->
+          <button class="slider-prev" @click="prevSlide">❮</button>
+          <button class="slider-next" @click="nextSlide">❯</button>
+
+          <!-- Indicators -->
+          <div class="indicator">
+            <span 
+              v-for="(slide, index) in slides" 
+              :key="index"
+              :class="{ active: currentSlide === index }"
+              @click="goToSlide(index)"
+            ></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stats/Info Section -->
+      <section class="info-section" id="tentang">
+        <div class="container">
+          <div class="info-grid">
+            <div class="info-card">
+              <div class="info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/>
+                </svg>
+              </div>
+              <h3>500+ Siswa Aktif</h3>
+              <p>Siswa berprestasi dari berbagai jurusan</p>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"/>
+                </svg>
+              </div>
+              <h3>5 Program Keahlian</h3>
+              <p>Jurusan berkualitas dengan fasilitas modern</p>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917l-7.5-3.5Z"/>
+                  <path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466 4.176 9.032Z"/>
+                </svg>
+              </div>
+              <h3>95% Tingkat Kelulusan</h3>
+              <p>Lulusan siap kerja dan melanjutkan kuliah</p>
+            </div>
+            <div class="info-card">
+              <div class="info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+              </div>
+              <h3>Akreditasi A</h3>
+              <p>Sekolah dengan standar pendidikan terbaik</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Jurusan/Program Section -->
+      <section class="programs-section" id="jurusan">
+        <div class="container">
+          <h2 class="section-title">Program Keahlian</h2>
+          <p class="section-desc">Pilih jurusan yang sesuai dengan minat dan bakat Anda</p>
+          
+          <div class="programs-grid">
+            <div class="program-card">
+              <div class="program-icon">💻</div>
+              <h3>Teknik Komputer & Jaringan</h3>
+              <p>Pelajari teknologi komputer, jaringan, dan infrastruktur IT modern</p>
+            </div>
+            <div class="program-card">
+              <div class="program-icon">📱</div>
+              <h3>Rekayasa Perangkat Lunak</h3>
+              <p>Kembangkan aplikasi dan software dengan teknologi terkini</p>
+            </div>
+            <div class="program-card">
+              <div class="program-icon">⚙️</div>
+              <h3>Teknik Mesin</h3>
+              <p>Kuasai teknologi permesinan dan manufaktur industri</p>
+            </div>
+            <div class="program-card">
+              <div class="program-icon">💰</div>
+              <h3>Akuntansi</h3>
+              <p>Pahami keuangan, perpajakan, dan sistem akuntansi modern</p>
+            </div>
+            <div class="program-card">
+              <div class="program-icon">📊</div>
+              <h3>Administrasi Perkantoran</h3>
+              <p>Menjadi profesional dalam manajemen administrasi dan perkantoran</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-section">
+              <h4>SMK Yasmu Gresik</h4>
+              <p>Mencetak Generasi Unggul, Berkarakter, dan Siap Kerja</p>
+            </div>
+            <div class="footer-section">
+              <h4>Kontak</h4>
+              <p>📍 Jl. Pendidikan No. 123, Gresik</p>
+              <p>📞 (031) 123-4567</p>
+              <p>✉️ info@smkyasmugresik.sch.id</p>
+            </div>
+            <div class="footer-section">
+              <h4>Link Cepat</h4>
+              <a href="#home">Home</a>
+              <a href="#tentang">Tentang Kami</a>
+              <a href="#jurusan">Jurusan</a>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <p>&copy; 2025 SMK Yasmu Gresik. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+
+// Slider data
+const slides = ref([
+  {
+    image: '/slide-1.jpg',
+    title: 'INOVASI HIJAU SMKS YASMU GRESIK: UBAH SAMPAH ORGANIK MENJADI PUPUK CAIR, KOMPOS, DAN BIOGAS',
+    description: 'SMK Yasmu Gresik terus berinovasi dalam menjaga kelestarian lingkungan dengan mengolah sampah organik menjadi Pupuk Cair Organik (PCO), pupuk kompos, dan biogas.'
+  },
+  {
+    image: '/slide-2.jpg',
+    title: 'PRESTASI GEMILANG SISWA SMK YASMU GRESIK',
+    description: 'Siswa-siswi kami meraih berbagai prestasi di tingkat regional dan nasional dalam kompetisi keterampilan dan akademik.'
+  },
+  {
+    image: '/slide-3.jpg',
+    title: 'FASILITAS MODERN UNTUK PEMBELAJARAN OPTIMAL',
+    description: 'Dilengkapi dengan laboratorium, workshop, dan teknologi terkini untuk mendukung proses belajar mengajar yang berkualitas.'
+  },
+  {
+    image: '/slide-4.jpg',
+    title: 'KERJASAMA INDUSTRI UNTUK MASA DEPAN CERAH',
+    description: 'Bermitra dengan berbagai perusahaan untuk memberikan pengalaman praktik kerja dan peluang karir bagi lulusan.'
+  }
+]);
+
+const currentSlide = ref(0);
+let slideInterval = null;
+
+// Slider functions
+const nextSlide = () => {
+  currentSlide.value = (currentSlide.value + 1) % slides.value.length;
+};
+
+const prevSlide = () => {
+  currentSlide.value = currentSlide.value === 0 ? slides.value.length - 1 : currentSlide.value - 1;
+};
+
+const goToSlide = (index) => {
+  currentSlide.value = index;
+};
+
+// Auto slide
+const startAutoSlide = () => {
+  slideInterval = setInterval(() => {
+    nextSlide();
+  }, 5000); // Change slide every 5 seconds
+};
+
+const stopAutoSlide = () => {
+  if (slideInterval) {
+    clearInterval(slideInterval);
+  }
+};
+
+onMounted(() => {
+  startAutoSlide();
+  
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+});
+
+onUnmounted(() => {
+  stopAutoSlide();
+});
+</script>
+
+<style scoped>
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Tentang SMKS YASMU GRESIK</h2>
+          <p class="section-subtitle">Membangun Masa Depan Cerah Melalui Pendidikan Berkualitas</p>
+        </div>
+        <div class="about-content">
+          <div class="about-text">
+            <p>
+              SMKS YASMU GRESIK adalah lembaga pendidikan kejuruan yang berfokus pada pengembangan 
+              keterampilan praktis dan karakter siswa. Dengan fasilitas modern dan tenaga pengajar 
+              profesional, kami berkomitmen untuk mencetak lulusan yang siap kerja dan berdaya saing tinggi.
+            </p>
+            <p>
+              Kami menawarkan berbagai program keahlian yang disesuaikan dengan kebutuhan industri 
+              saat ini, didukung dengan praktik kerja lapangan dan kerjasama dengan berbagai perusahaan.
+            </p>
+            <div class="about-features">
+              <div class="feature-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+                </svg>
+                <span>Fasilitas Lengkap & Modern</span>
+              </div>
+              <div class="feature-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+                </svg>
+                <span>Guru Profesional & Berpengalaman</span>
+              </div>
+              <div class="feature-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+                </svg>
+                <span>Kerjasama Industri & PKL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section class="programs-section" id="program">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Program Keahlian</h2>
+          <p class="section-subtitle">Pilih Program Sesuai Minat dan Bakatmu</p>
+        </div>
+        <div class="programs-grid">
+          <div class="program-card">
+            <div class="program-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 10h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1 0-1zm0-2h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1 0-1zm0-2h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1 0-1zm0-2h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1 0-1zm0-2h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1 0-1zm-4 2h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1 0-1z"/>
+              </svg>
+            </div>
+            <h3 class="program-title">Teknik Komputer & Jaringan</h3>
+            <p class="program-description">
+              Mempelajari instalasi, konfigurasi, dan pemeliharaan sistem komputer dan jaringan.
+            </p>
+          </div>
+          <div class="program-card">
+            <div class="program-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h6zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H5z"/>
+                <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+              </svg>
+            </div>
+            <h3 class="program-title">Rekayasa Perangkat Lunak</h3>
+            <p class="program-description">
+              Belajar membuat aplikasi mobile dan web dengan teknologi terkini.
+            </p>
+          </div>
+          <div class="program-card">
+            <div class="program-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+                <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319z"/>
+              </svg>
+            </div>
+            <h3 class="program-title">Teknik Mesin</h3>
+            <p class="program-description">
+              Menguasai keterampilan teknik pemesinan dan fabrikasi logam.
+            </p>
+          </div>
+          <div class="program-card">
+            <div class="program-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935zm10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935z"/>
+              </svg>
+            </div>
+            <h3 class="program-title">Akuntansi</h3>
+            <p class="program-description">
+              Mempelajari pencatatan keuangan, laporan, dan analisis bisnis.
+            </p>
+          </div>
+          <div class="program-card">
+            <div class="program-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1H2zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5z"/>
+              </svg>
+            </div>
+            <h3 class="program-title">Administrasi Perkantoran</h3>
+            <p class="program-description">
+              Menguasai skill administrasi, kesekretariatan, dan manajemen kantor modern.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="kontak">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Hubungi Kami</h2>
+          <p class="section-subtitle">Ada pertanyaan? Kami siap membantu Anda</p>
+        </div>
+        <div class="contact-content">
+          <div class="contact-info">
+            <div class="info-item">
+              <div class="info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
+                  <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                </svg>
+              </div>
+              <div class="info-text">
+                <h4>Alamat</h4>
+                <p>Jl. Pendidikan No. 123, Gresik, Jawa Timur</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                </svg>
+              </div>
+              <div class="info-text">
+                <h4>Telepon</h4>
+                <p>(031) 123-4567</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+                </svg>
+              </div>
+              <div class="info-text">
+                <h4>Email</h4>
+                <p>info@smkyasmugresik.sch.id</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <div class="brand-logo">
+              <img src="/LOGO BULAT PNG.png" alt="Logo SMKS YASMU GRESIK" class="brand-logo-img">
+              <span>SMKS YASMU GRESIK</span>
+            </div>
+            <p class="footer-description">
+              Mencetak generasi unggul, berkarakter, dan siap kerja untuk masa depan Indonesia yang lebih baik.
+            </p>
+          </div>
+          <div class="footer-links">
+            <h4>Link Cepat</h4>
+            <ul>
+              <li><a href="#beranda">Beranda</a></li>
+              <li><a href="#tentang">Tentang Kami</a></li>
+              <li><a href="#program">Program Keahlian</a></li>
+              <li><a href="#kontak">Kontak</a></li>
+            </ul>
+          </div>
+          <div class="footer-social">
+            <h4>Ikuti Kami</h4>
+            <div class="social-links">
+              <a href="#" class="social-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                </svg>
+              </a>
+              <a href="#" class="social-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
+                </svg>
+              </a>
+              <a href="#" class="social-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 SMKS YASMU GRESIK. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+</template>
+
+<script setup>
+import { onMounted } from 'vue';
+
+onMounted(() => {
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+});
+</script>
+
+<style scoped>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.home-wrapper {
+  width: 100%;
+  overflow-x: hidden;
+  background: #ffffff;
+}
+
+/* Header / Navbar */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.navbar {
+  padding: 1rem 0;
+}
+
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 50px;
+  width: auto;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-menu li {
+  list-style: none;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.nav-menu a:hover {
+  color: #4f46e5;
+}
+
+.nav-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #4f46e5;
+  transition: width 0.3s ease;
+}
+
+.nav-menu a:hover::after {
+  width: 100%;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.search-btn:hover {
+  transform: scale(1.1);
+}
+
+.contact-btn {
+  background: white;
+  color: #4f46e5;
+  border: 2px solid #4f46e5;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.contact-btn:hover {
+  background: #4f46e5;
+  color: white;
+}
+
+.login-btn {
+  background: #4f46e5;
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+  background: #4338ca;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+/* Hero Section */
+.hero {
+  margin-top: 80px; /* Account for fixed navbar */
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  padding: 3rem 0 2rem 0;
+}
+
+.hero-header {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.main-title {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.main-subtitle {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 2rem;
+}
+
+.btn-yellow {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #1e293b;
+  padding: 1rem 3rem;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+}
+
+.btn-yellow:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.6);
+}
+
+/* Slider */
+.slider {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  height: 600px;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%);
+}
+
+.slide-caption {
+  position: absolute;
+  left: 5%;
+  bottom: 10%;
+  max-width: 600px;
+  color: white;
+  z-index: 10;
+  padding: 2rem;
+}
+
+.slide-caption h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.slide-caption p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.btn-green {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.btn-green:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+/* Slider Controls */
+.slider-prev,
+.slider-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  z-index: 20;
+  transition: all 0.3s ease;
+}
+
+.slider-prev:hover,
+.slider-next:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.slider-prev {
+  left: 20px;
+  border-radius: 0 8px 8px 0;
+}
+
+.slider-next {
+  right: 20px;
+  border-radius: 8px 0 0 8px;
+}
+
+/* Indicators */
+.indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 20;
+}
+
+.indicator span {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator span.active {
+  background: white;
+  width: 40px;
+  border-radius: 10px;
+}
+
+.indicator span:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* Info Section */
+.info-section {
+  padding: 5rem 2rem;
+  background: white;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.info-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  padding: 2.5rem;
+  border-radius: 16px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.info-card:hover {
+  transform: translateY(-10px);
+  border-color: #4f46e5;
+  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.2);
+}
+
+.info-icon {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.info-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.8rem;
+}
+
+.info-card p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* Programs Section */
+.programs-section {
+  padding: 5rem 2rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+}
+
+.section-title {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+.section-desc {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #64748b;
+  margin-bottom: 3rem;
+}
+
+.programs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.program-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.program-card:hover {
+  transform: translateY(-10px);
+  border-color: #4f46e5;
+  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.2);
+}
+
+.program-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.program-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+.program-card p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* Footer */
+.footer {
+  background: #1e293b;
+  color: white;
+  padding: 3rem 2rem 1.5rem;
+}
+
+.footer-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+
+.footer-section h4 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #fbbf24;
+}
+
+.footer-section p {
+  margin-bottom: 0.5rem;
+  color: #cbd5e1;
+  line-height: 1.8;
+}
+
+.footer-section a {
+  display: block;
+  color: #cbd5e1;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+  color: #4f46e5;
+}
+
+.footer-bottom {
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+  }
+
+  .main-title {
+    font-size: 2.5rem;
+  }
+
+  .main-subtitle {
+    font-size: 1.3rem;
+  }
+
+  .slider {
+    height: 400px;
+  }
+
+  .slide-caption {
+    left: 2%;
+    right: 2%;
+    bottom: 5%;
+    padding: 1rem;
+  }
+
+  .slide-caption h3 {
+    font-size: 1.3rem;
+  }
+
+  .slide-caption p {
+    font-size: 0.9rem;
+  }
+
+  .slider-prev,
+  .slider-next {
+    padding: 0.5rem 1rem;
+    font-size: 1.5rem;
+  }
+
+  .info-grid,
+  .programs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.info-card,
+.program-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+</style>
+
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.hero-shape {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+}
+
+.shape-1 {
+  width: 500px;
+  height: 500px;
+  top: -100px;
+  left: -100px;
+  animation: float 8s ease-in-out infinite;
+}
+
+.shape-2 {
+  width: 400px;
+  height: 400px;
+  bottom: -100px;
+  right: -100px;
+  animation: float 6s ease-in-out infinite reverse;
+}
+
+.shape-3 {
+  width: 300px;
+  height: 300px;
+  top: 50%;
+  right: 10%;
+  animation: float 7s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-30px) rotate(5deg);
+  }
+}
+
+/* Navbar */
+.navbar {
+  position: relative;
+  z-index: 10;
+  padding: 1.5rem 0;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+}
+
+.brand-logo-img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: white;
+}
+
+.btn-login {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.625rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-login:hover {
+  background: white;
+  color: var(--primary-color);
+}
+
+/* Hero Content */
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  padding: 6rem 2rem;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.highlight {
+  color: #a5d6a7;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.btn-primary {
+  background: white;
+  color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-outline:hover {
+  background: white;
+  color: var(--primary-color);
+}
+
+.hero-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-placeholder {
+  width: 100%;
+  max-width: 400px;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.hero-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 2rem;
+}
+
+/* Stats Section */
+.stats-section {
+  padding: 5rem 0;
+  background: var(--background-color);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.stat-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+}
+
+.stat-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.stat-number {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* Section Header */
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+}
+
+/* About Section */
+.about-section {
+  padding: 5rem 0;
+  background: white;
+}
+
+.about-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.about-text p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.about-features {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--background-color);
+  border-radius: 12px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.feature-item svg {
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.feature-item span {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+/* Programs Section */
+.programs-section {
+  padding: 5rem 0;
+  background: var(--background-color);
+}
+
+.programs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.program-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.program-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 24px rgba(46, 125, 50, 0.2);
+}
+
+.program-icon {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.program-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.program-description {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Contact Section */
+.contact-section {
+  padding: 5rem 0;
+  background: white;
+}
+
+.contact-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: var(--background-color);
+  border-radius: 16px;
+}
+
+.info-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.info-text h4 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.info-text p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Footer */
+.footer {
+  background: linear-gradient(135deg, #1b5e20, #2e7d32);
+  color: white;
+  padding: 3rem 0 1rem;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+
+.footer-brand .brand-logo {
+  margin-bottom: 1rem;
+}
+
+.footer-description {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+}
+
+.footer-links h4,
+.footer-social h4 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.footer-links ul {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: white;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.social-link:hover {
+  background: white;
+  color: var(--primary-color);
+}
+
+.footer-bottom {
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero-image {
+    order: -1;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .nav-menu {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+}
+</style>
