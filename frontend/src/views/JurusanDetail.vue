@@ -179,10 +179,10 @@ const displayEquipment = computed(() => {
 const detailData = computed(() => {
   const defaultData = {
     career: 'Lulusan dapat bekerja di berbagai sektor industri sebagai teknisi, operator, atau wirausaha.',
-    competencyText: 'Lulusan dibekali dengan kompetensi yang lengkap untuk melakukan perawatan dan perbaikan pada kendaraan ringan. Kompetensi ini mencakup kemampuan mendiagnosis kerusakan, melakukan servis berkala (tune-up), serta menangani perbaikan pada berbagai sistem vital kendaraan.',
+    competencyText: 'Lulusan dibekali dengan kompetensi yang lengkap sesuai bidang keahlian untuk siap menghadapi dunia kerja dan industri.',
     competencies: ['Kompetensi Dasar Kejuruan', 'Kompetensi Kejuruan Spesifik', 'Wirausaha & Produk Kreatif'],
-    rooms: ['Ruang Teori', 'Bengkel Praktek'],
-    tools: ['Peralatan Tangan', 'Mesin Dasar'],
+    rooms: ['Ruang Teori', 'Ruang Praktek'],
+    tools: ['Peralatan Standar', 'Alat Praktek'],
     facilityImage: '/slide-3.jpg'
   };
 
@@ -190,9 +190,10 @@ const detailData = computed(() => {
     const slug = (program.value.slug || '').toLowerCase();
     const name = (program.value.name || '').toLowerCase();
 
+    // Teknik Pemesinan
     if (slug.includes('pemesinan') || name.includes('pemesinan') || slug.includes('tpm')) {
       return {
-        career: 'Peluang karir bagi lulusan Teknik Pemesinan sangat luas dan tersebar di berbagai sektor industri manufaktur. Mereka dapat berkarir sebagai Operator Mesin Bubut, Frais, Gerinda, maupun Operator CNC yang sangat dibutuhkan di pabrik otomotif, alat berat, dan komponen presisi. Posisi lain meliputi Teknisi Permesinan, Drafter, hingga Quality Control (QC).',
+        career: 'Peluang karir bagi lulusan Teknik Pemesinan sangat luas dan tersebar di berbagai sektor industri manufaktur. Mereka dapat berkarir sebagai Operator Mesin Bubut, Frais, Gerinda, maupun Operator CNC yang sangat dibutuhkan di pabrik otomotif, alat berat, dan komponen presisi. Posisi lain meliputi Teknisi Permesinan, Juru Gambar Teknik (Drafter), Quality Control (QC) Inspector, hingga Toolmaker atau membuka usaha bengkel permesinan mandiri.',
         competencyText: 'Lulusan memiliki kompetensi dalam pengoperasian mesin konvensional dan CNC, pemahaman gambar teknik, serta kemampuan quality control yang memadai untuk industri manufaktur.',
         competencies: ['Gambar Teknik Manufaktur', 'Teknologi Mekanik', 'Teknik Pemesinan Bubut & Frais', 'Teknik Pemesinan Gerinda', 'Teknik Pemesinan NC/CNC & CAM'],
         rooms: ['Ruang Praktek Kerja Bangku', 'Ruang Praktek Mesin RPS', 'Ruang Praktek CNC', 'Ruang Praktek Gambar Manufaktur', 'Ruang Toolman'],
@@ -201,7 +202,8 @@ const detailData = computed(() => {
       };
     }
 
-    if (slug.includes('otomotif') || name.includes('otomotif') || slug.includes('tkr')) {
+    // Teknik Kendaraan Ringan / Otomotif
+    if (slug.includes('otomotif') || name.includes('otomotif') || slug.includes('tkr') || name.includes('kendaraan')) {
       return {
         career: 'Lulusan dapat bekerja sebagai Teknisi Otomotif, Mekanik Kendaraan, Service Advisor, Parts Specialist, atau membuka bengkel otomotif sendiri. Peluang karir juga terbuka di dealer resmi, bengkel umum, dan industri otomotif.',
         competencyText: 'Lulusan jurusan Teknik Otomotif dibekali dengan kompetensi yang lengkap untuk melakukan perawatan dan perbaikan pada kendaraan ringan. Kompetensi ini mencakup kemampuan mendiagnosis kerusakan, melakukan servis berkala (tune-up), serta menangani perbaikan pada berbagai sistem vital kendaraan, meliputi mesin, sasis, sistem pemindah tenaga, suspensi, rem, dan sistem kelistrikan termasuk Air Conditioner (AC).',
@@ -209,6 +211,66 @@ const detailData = computed(() => {
         rooms: ['Ruang Praktek Otomotif', 'Ruang Bengkel', 'Ruang Praktek Gambar', 'Ruang Praktek Kelistrikan', 'Ruang Engine Stand'],
         tools: ['Mesin Spooring, Mesin Balancing, Mesin VVTI', 'Komenrail, Scantools, Injector Cleaner', 'Engine Stand, Trainer AC', 'Hydraulic Lift, Jack Stand', 'Diagnostic Tools'],
         facilityImage: '/slide-2.jpg'
+      };
+    }
+
+    // Teknik Komputer dan Jaringan (TKJ)
+    if (slug.includes('tkj') || name.includes('komputer') || name.includes('jaringan') || slug.includes('jaringan')) {
+      return {
+        career: 'Lulusan TKJ dapat berkarir sebagai Network Administrator, IT Support, System Administrator, Teknisi Komputer, Web Developer, atau membuka usaha jasa komputer dan jaringan. Peluang juga terbuka di perusahaan IT, provider internet, dan instansi pemerintah.',
+        competencyText: 'Lulusan TKJ dibekali kompetensi dalam perakitan dan perawatan komputer, instalasi sistem operasi, konfigurasi jaringan LAN/WAN, administrasi server, keamanan jaringan, serta troubleshooting hardware dan software.',
+        competencies: ['Perakitan & Perawatan Komputer', 'Instalasi Sistem Operasi', 'Jaringan Dasar & Lanjut', 'Administrasi Server', 'Keamanan Jaringan', 'Troubleshooting'],
+        rooms: ['Lab Komputer', 'Lab Jaringan', 'Ruang Server', 'Ruang Praktek Hardware', 'Ruang Multimedia'],
+        tools: ['Komputer Desktop & Laptop', 'Router, Switch, Access Point', 'Kabel UTP & Fiber Optic', 'Crimping Tool, LAN Tester', 'Server & Rack'],
+        facilityImage: '/slide-3.jpg'
+      };
+    }
+
+    // Multimedia / DKV (Desain Komunikasi Visual)
+    if (slug.includes('multimedia') || name.includes('multimedia') || slug.includes('dkv') || name.includes('desain') || name.includes('grafis')) {
+      return {
+        career: 'Lulusan Multimedia/DKV dapat berkarir sebagai Graphic Designer, Video Editor, Animator, UI/UX Designer, Photographer, Content Creator, atau membuka usaha di bidang desain dan produksi media digital.',
+        competencyText: 'Lulusan dibekali kompetensi dalam desain grafis, editing video, animasi 2D/3D, fotografi, videografi, serta pengembangan konten digital untuk berbagai platform media.',
+        competencies: ['Desain Grafis', 'Editing Video & Audio', 'Animasi 2D & 3D', 'Fotografi & Videografi', 'UI/UX Design', 'Motion Graphics'],
+        rooms: ['Lab Desain Grafis', 'Studio Fotografi', 'Studio Video', 'Ruang Editing', 'Lab Animasi'],
+        tools: ['Komputer Desain (iMac/PC)', 'Kamera DSLR & Mirrorless', 'Lighting Equipment', 'Tripod & Stabilizer', 'Software Adobe Creative Suite'],
+        facilityImage: '/slide-3.jpg'
+      };
+    }
+
+    // Akuntansi
+    if (slug.includes('akuntansi') || name.includes('akuntansi') || slug.includes('ak') || name.includes('keuangan')) {
+      return {
+        career: 'Lulusan Akuntansi dapat berkarir sebagai Staff Accounting, Tax Officer, Auditor, Kasir, Admin Keuangan, atau membuka jasa pembukuan dan konsultan pajak. Peluang juga terbuka di perbankan, BUMN, dan perusahaan swasta.',
+        competencyText: 'Lulusan dibekali kompetensi dalam pencatatan transaksi keuangan, penyusunan laporan keuangan, perpajakan, penggunaan software akuntansi, serta analisis keuangan dasar.',
+        competencies: ['Akuntansi Dasar & Lanjut', 'Perpajakan', 'Komputer Akuntansi (MYOB/Accurate)', 'Spreadsheet & Database', 'Laporan Keuangan', 'Etika Profesi'],
+        rooms: ['Lab Akuntansi', 'Lab Komputer Akuntansi', 'Mini Bank', 'Ruang Praktek Perpajakan'],
+        tools: ['Komputer dengan Software Akuntansi', 'Mesin Kasir', 'Kalkulator & Alat Tulis', 'Formulir Pajak', 'Software MYOB, Accurate, Zahir'],
+        facilityImage: '/slide-3.jpg'
+      };
+    }
+
+    // Administrasi Perkantoran / OTKP
+    if (slug.includes('administrasi') || name.includes('administrasi') || slug.includes('otkp') || name.includes('perkantoran') || name.includes('otomatisasi')) {
+      return {
+        career: 'Lulusan dapat berkarir sebagai Staff Administrasi, Sekretaris, Resepsionis, Customer Service, Staff HRD, atau Admin Gudang. Peluang juga terbuka di berbagai perusahaan, hotel, rumah sakit, dan instansi pemerintah.',
+        competencyText: 'Lulusan dibekali kompetensi dalam pengelolaan dokumen, korespondensi, kearsipan, penggunaan peralatan kantor, etika komunikasi profesional, serta manajemen perkantoran modern.',
+        competencies: ['Pengelolaan Dokumen', 'Korespondensi & Kearsipan', 'Teknologi Perkantoran', 'Administrasi Kepegawaian', 'Pelayanan Prima', 'Etika Profesi'],
+        rooms: ['Lab Administrasi', 'Ruang Praktek Perkantoran', 'Ruang Simulasi Resepsionis', 'Lab Komputer', 'Ruang Kearsipan'],
+        tools: ['Komputer & Printer', 'Mesin Fotokopi & Scanner', 'Telepon & Fax', 'Filing Cabinet', 'Software MS Office'],
+        facilityImage: '/slide-3.jpg'
+      };
+    }
+
+    // Teknik Pengelasan
+    if (slug.includes('las') || name.includes('las') || name.includes('pengelasan')) {
+      return {
+        career: 'Lulusan dapat berkarir sebagai Welder/Juru Las, Welding Inspector, Fabricator, atau bekerja di industri konstruksi, perkapalan, migas, dan manufaktur. Sertifikasi las internasional membuka peluang kerja di luar negeri.',
+        competencyText: 'Lulusan dibekali kompetensi dalam berbagai teknik pengelasan (SMAW, GMAW, GTAW), membaca gambar kerja las, inspeksi hasil lasan, serta standar keselamatan kerja pengelasan.',
+        competencies: ['Las Busur Manual (SMAW)', 'Las MIG/MAG (GMAW)', 'Las TIG (GTAW)', 'Membaca Gambar Kerja Las', 'Inspeksi Hasil Lasan', 'K3 Pengelasan'],
+        rooms: ['Bengkel Las', 'Ruang Praktek SMAW', 'Ruang Praktek GMAW/GTAW', 'Ruang Teori', 'Ruang Pengujian'],
+        tools: ['Mesin Las SMAW', 'Mesin Las MIG/MAG', 'Mesin Las TIG', 'Gerinda Tangan & Potong', 'APD Las Lengkap'],
+        facilityImage: '/slide-1.jpg'
       };
     }
   }
