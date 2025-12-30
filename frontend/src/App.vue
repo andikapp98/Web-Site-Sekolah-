@@ -1,46 +1,44 @@
 <template>
-  <div class="app-layout">
-    <Sidebar v-if="showSidebar" />
-    <div class="main-content" :class="{ 'no-sidebar': !showSidebar }">
-      <HeaderBar v-if="showHeaderBar" />
-      <router-view />
-    </div>
-  </div>
+  <router-view />
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import Sidebar from './components/Sidebar.vue';
-import HeaderBar from './components/HeaderBar.vue';
-
-const route = useRoute();
-
-// Show sidebar and header only for authenticated pages (dashboard, admin pages)
-const showSidebar = computed(() => {
-  return route.meta.requiresAuth === true;
-});
-
-const showHeaderBar = computed(() => {
-  return route.meta.requiresAuth === true;
-});
+// App.vue now only serves as router outlet
+// AdminLayout handles sidebar/header for admin pages
+// Public pages have their own layout (PublicNavbar/PublicFooter)
 </script>
 
 <style>
-.app-layout {
-  display: flex;
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.main-content {
-  flex-grow: 1;
-  height: 100vh;
-  overflow-y: auto;
+:root {
+  --primary-color: #155d27;
+  --primary-hover: #0d4f1f;
+  --secondary-color: #d4a017;
+  --text-color: #1f2937;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --bg-color: #f8fafc;
 }
 
-.main-content.no-sidebar {
-  margin-left: 0;
-  width: 100%;
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-color);
+  background: #fff;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
 }
 </style>
-
-

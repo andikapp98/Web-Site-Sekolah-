@@ -102,7 +102,7 @@ const handleLogin = async () => {
   try {
     await login(form.value.email, form.value.password);
     // Login successful
-    router.push('/dashboard');
+    router.push('/admin');
   } catch (err) {
     error.value = err.message || 'Login gagal. Periksa email dan password Anda.';
   } finally {

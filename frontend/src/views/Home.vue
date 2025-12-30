@@ -16,12 +16,12 @@
 
       <!-- Hero Slider Section -->
       <section class="hero-slider" id="home">
-        <Swiper :modules="[Pagination, Autoplay]" :pagination="{ clickable: true }" :autoplay="{ delay: 5000 }" :loop="true" class="hero-swiper">
+        <Swiper :modules="[Pagination, Autoplay]" :pagination="{ clickable: true }" :autoplay="{ delay: 5000, disableOnInteraction: false }" :loop="slides.length >= 3" class="hero-swiper">
           <SwiperSlide v-for="(slide, index) in slides" :key="index">
             <div class="slide-container">
-              <img :src="slide.image" :alt="slide.title" class="slide-image" />
-              <div class="slide-overlay"></div>
-              <div class="slide-content">
+              <img :src="slide.image" :alt="slide.title || 'Hero Image'" class="slide-image" />
+              <div v-if="slide.title" class="slide-overlay"></div>
+              <div v-if="slide.title" class="slide-content">
                 <h2>{{ slide.title }}</h2>
                 <p>{{ slide.description }}</p>
                 <a href="#" class="btn-selengkapnya">Selengkapnya</a>
@@ -79,7 +79,7 @@
               <div v-if="activeWhyCard === index" class="why-card-content">
                 <p>{{ item.desc }}</p>
                 <div class="why-card-icon">
-                  <img :src="item.icon" :alt="item.title" class="why-icon-img" />
+                  <component :is="item.icon" :size="60" stroke-width="1.5" />
                 </div>
               </div>
               <div v-else class="why-card-circle"></div>
@@ -96,14 +96,16 @@
               <h2>JEJAK GEMILANG</h2>
               <h3>SISWA BERPRESTASI</h3>
             </div>
-            <div class="news-trophy">🏆</div>
+            <div class="news-trophy">
+              <Trophy :size="48" stroke-width="1.5" />
+            </div>
           </div>
           
           <div class="news-slider-wrapper">
             <button class="news-nav news-prev" @click="prevNews"><ChevronLeft :size="24" /></button>
             <div class="news-cards">
               <div class="news-card" v-for="(news, i) in newsItems" :key="i">
-                <span class="news-badge">{{ news.category }}</span>
+                <span class="news-badge" :class="news.category?.toLowerCase()">{{ news.category }}</span>
                 <h4>{{ news.title }}</h4>
                 <p>{{ news.excerpt }}</p>
                 <div class="news-image-wrapper">
@@ -277,12 +279,13 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Pagination, Autoplay } from 'swiper/modules';
-import { ArrowUpRight, ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-vue-next';
+import { ArrowUpRight, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, Award, Building2, Lightbulb, Trophy } from 'lucide-vue-next';
 import PublicNavbar from '../components/PublicNavbar.vue';
 import PublicFooter from '../components/PublicFooter.vue';
+import { publicApi } from '../services/api';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
@@ -290,6 +293,7 @@ const mobileMenuOpen = ref(false);
 const searchOpen = ref(false);
 const searchQuery = ref('');
 const activeWhyCard = ref(2);
+const dataLoading = ref(true);
 
 const toggleMobileMenu = () => { mobileMenuOpen.value = !mobileMenuOpen.value; };
 const toggleSearch = () => { searchOpen.value = !searchOpen.value; };
@@ -319,68 +323,140 @@ const nextProgramPage = () => {
   }
 };
 
+// Static data (not from API)
 const whyItems = ref([
-  { title: 'Sekolah Rujukan Berstandar Nasional', desc: 'SMK Yasmu menjadi SMK Pusat Keunggulan dan rujukan bagi sekolah swasta lain di Gresik, dengan standar manajemen dan fasilitas nasional.', icon: '/icons/icon-rujukan.png' },
-  { title: 'Fasilitas Lengkap & Pembelajaran Efektif', desc: 'Didukung lahan luas dan alat praktik memadai, pembelajaran berjalan optimal dengan guru profesional.', icon: '/icons/icon-fasilitas.png' },
-  { title: 'Penguatan Karakter & Jiwa Wirausaha', desc: 'Menguatkan akhlak lewat pendidikan agama dan membekali siswa dengan jiwa wirausaha berbasis inovasi.', icon: '/icons/icon-wirausaha.png' }
+  { title: 'Sekolah Rujukan Berstandar Nasional', desc: 'SMK Yasmu menjadi SMK Pusat Keunggulan dan rujukan bagi sekolah swasta lain di Gresik, dengan standar manajemen dan fasilitas nasional.', icon: Award },
+  { title: 'Fasilitas Lengkap & Pembelajaran Efektif', desc: 'Didukung lahan luas dan alat praktik memadai, pembelajaran berjalan optimal dengan guru profesional.', icon: Building2 },
+  { title: 'Penguatan Karakter & Jiwa Wirausaha', desc: 'Menguatkan akhlak lewat pendidikan agama dan membekali siswa dengan jiwa wirausaha berbasis inovasi.', icon: Lightbulb }
 ]);
 
-const slides = ref([
+// Dynamic data from API
+const slides = ref([]);
+const newsItems = ref([]);
+const programs = ref([]);
+const partners = ref([]);
+const testimonialRow1 = ref([]);
+const testimonialRow2 = ref([]);
+
+// Fallback static data
+const fallbackSlides = [
+  { image: '/hero/Frame 313.png', title: '', description: '' },
   { image: '/hero/Frame 313.png', title: 'BEKALI SISWA HADAPI DUNIA INDUSTRI', description: 'SMK Yasmu gelar pembekalan PKL untuk siswa kelas XI.' },
   { image: '/hero/Frame 313.png', title: 'INOVASI HIJAU: UBAH SAMPAH JADI PUPUK', description: 'Program lingkungan mengolah sampah organik menjadi pupuk.' },
   { image: '/hero/Frame 313.png', title: 'PRESTASI GEMILANG SISWA SMK YASMU', description: 'Meraih berbagai prestasi tingkat regional dan nasional.' }
-]);
+];
 
-const newsItems = ref([
-  { category: 'KEGIATAN', title: 'Laga Sengit di Final HMM Futsal Championship, Tim Futsal SMK YASMU Raih Posisi Runner-Up', excerpt: 'GRESIK – Atmosfer Gedung Wahana Ekspresi Poesponegoro (WEP) bergemuruh oleh sorak-sorai ratusan suporter pada Jumat sore (3/3/2023) lalu. Mereka menjadi saksi laga pu...', image: '/slide-1.jpg' },
-  { category: 'KEGIATAN', title: 'Lanjutkan Tren Juara, BRIGPASMU SMK YASMU Sabet Juara Caraka 2 di LKBB Tingkat Jawa Timur', excerpt: 'GRESIK – Konsistensi dalam berprestasi kembali dibuktikan oleh tim Paskibra SMK YASMU Manyar. Usai meraih sukses di tingkat kabupaten, tim BRIGPASMU (Brigadir Pasuka...', image: '/slide-2.jpg' },
-  { category: 'KEGIATAN', title: 'BRIGPASMU SMK YASMU Gresik Torehkan Prestasi Gemilang, Juarai LKBB GAPURA 4.0', excerpt: 'GRESIK – Prestasi membanggakan kembali diukir oleh siswa-siswi SMK YASMU Manyar, Kabupaten Gresik. Kali ini, tim Paskibra sekolah yang dikenal dengan nama BRIGPAS...', image: '/slide-3.jpg' }
-]);
+const fallbackPrograms = [
+  { name: 'TEKNIK PEMESINAN', desc: 'Teknik Pemesinan mempersiapkan siswa untuk menjadi tenaga ahli yang profesional dan terampil dalam mengoperasikan mesin-mesin industri.', image: '/slide-1.jpg' },
+  { name: 'TEKNIK OTOMOTIF', desc: 'Teknik Otomotif mempersiapkan siswa untuk menjadi tenaga mekanik yang profesional dan terampil dalam menangani kendaraan ringan.', image: '/slide-2.jpg' },
+  { name: 'DESAIN KOMUNIKASI VISUAL', desc: 'Desain Komunikasi Visual mempersiapkan siswa untuk menjadi tenaga kreatif yang profesional dalam bidang desain grafis.', image: '/slide-3.jpg' },
+  { name: 'ANALISIS PENGUJIAN LAB', desc: 'Analisis Pengujian Lab mempersiapkan siswa untuk menjadi tenaga analis yang profesional dalam laboratorium industri.', image: '/slide-1.jpg' },
+  { name: 'MANAJEMEN PERKANTORAN', desc: 'Manajemen Perkantoran mempersiapkan siswa untuk menjadi tenaga administrasi profesional.', image: '/slide-2.jpg' },
+  { name: 'TEKNIK LOGISTIK', desc: 'Teknik Logistik mempersiapkan siswa untuk menjadi tenaga ahli dalam manajemen rantai pasokan.', image: '/slide-3.jpg' }
+];
 
-const programs = ref([
-  { name: 'TEKNIK PEMESINAN', desc: 'Teknik Pemesinan mempersiapkan siswa untuk menjadi tenaga ahli yang profesional dan terampil dalam mengoperasikan mesin-mesin industri. Pembelajaran mencakup seluruh aspek permesinan.', image: '/slide-1.jpg' },
-  { name: 'TEKNIK OTOMOTIF', desc: 'Teknik Otomotif mempersiapkan siswa untuk menjadi tenaga mekanik yang profesional dan terampil dalam menangani kendaraan ringan (mobil). Pembelajaran mencakup seluruh aspek.', image: '/slide-2.jpg' },
-  { name: 'DESAIN KOMUNIKASI VISUAL', desc: 'Desain Komunikasi Visual mempersiapkan siswa untuk menjadi tenaga kreatif yang profesional dalam bidang desain grafis, multimedia, dan videografi.', image: '/slide-3.jpg' },
-  { name: 'ANALISIS PENGUJIAN LAB', desc: 'Analisis Pengujian Lab mempersiapkan siswa untuk menjadi tenaga analis yang profesional dalam laboratorium industri dan pengujian kualitas produk.', image: '/slide-1.jpg' },
-  { name: 'MANAJEMEN PERKANTORAN', desc: 'Manajemen Perkantoran mempersiapkan siswa untuk menjadi tenaga administrasi profesional yang terampil dalam pengelolaan kantor modern.', image: '/slide-2.jpg' },
-  { name: 'TEKNIK LOGISTIK', desc: 'Teknik Logistik mempersiapkan siswa untuk menjadi tenaga ahli dalam manajemen rantai pasokan dan distribusi barang.', image: '/slide-3.jpg' }
-]);
+// Helper function to get image URL
+const getImageUrl = (path) => {
+  if (!path) return '';
+  if (path.startsWith('http') || path.startsWith('/')) return path;
+  return `http://localhost:8000/storage/${path}`;
+};
 
-const partners = ref([
-  { name: 'Indopipe', logo: '/partners/indopipe.png' },
-  { name: 'PT Swadaya Graha', logo: '/partners/swadaya-graha.png' },
-  { name: 'JD Global', logo: '/partners/jd-global.png' },
-  { name: 'PT Indo Bismar', logo: '/partners/indo-bismar.png' },
-  { name: 'Jindal Stainless', logo: '/partners/jindal-stainless.png' },
-  { name: 'Partner 1', logo: '/partners/Group 278.png' },
-  { name: 'Partner 2', logo: '/partners/Group 279.png' },
-  { name: 'Partner 3', logo: '/partners/Group 281.png' },
-  { name: 'Partner 4', logo: '/partners/Group 282.png' },
-  { name: 'Partner 5', logo: '/partners/Group 283.png' },
-  { name: 'Partner 6', logo: '/partners/Group 284.png' },
-  { name: 'Partner 7', logo: '/partners/Group 285.png' },
-  { name: 'Partner 8', logo: '/partners/Group 286.png' },
-  { name: 'Partner 9', logo: '/partners/Group 287.png' },
-  { name: 'Partner 10', logo: '/partners/Group 289.png' },
-  { name: 'Partner 11', logo: '/partners/Group 290.png' },
-  { name: 'Partner 12', logo: '/partners/Group 291.png' }
-]);
+// Load data from API
+const loadData = async () => {
+  dataLoading.value = true;
+  
+  try {
+    // Load hero slides
+    const slidesRes = await publicApi.getHeroSlides();
+    if (slidesRes.data && slidesRes.data.length > 0) {
+      slides.value = slidesRes.data.map(s => ({
+        ...s,
+        image: getImageUrl(s.image)
+      }));
+    } else {
+      slides.value = fallbackSlides;
+    }
+  } catch (e) {
+    console.log('Using fallback slides');
+    slides.value = fallbackSlides;
+  }
+  
+  try {
+    // Load articles for Jejak Gemilang (only Prestasi)
+    const articlesRes = await publicApi.getArticles(20);
+    const articlesData = articlesRes.data?.data || articlesRes.data || [];
+    // Filter only Prestasi category
+    const prestasiArticles = articlesData.filter(a => 
+      a.category?.toLowerCase() === 'prestasi'
+    ).slice(0, 6);
+    if (prestasiArticles.length > 0) {
+      newsItems.value = prestasiArticles.map(a => ({
+        category: a.category || 'Prestasi',
+        title: a.title,
+        excerpt: a.excerpt || '',
+        image: getImageUrl(a.image) || '/slide-1.jpg'
+      }));
+    }
+  } catch (e) {
+    console.log('Error loading articles:', e);
+  }
+  
+  try {
+    // Load programs
+    const programsRes = await publicApi.getPrograms();
+    if (programsRes.data && programsRes.data.length > 0) {
+      programs.value = programsRes.data.map(p => ({
+        name: p.name.toUpperCase(),
+        desc: p.description,
+        image: getImageUrl(p.image) || '/slide-1.jpg'
+      }));
+    } else {
+      programs.value = fallbackPrograms;
+    }
+  } catch (e) {
+    console.log('Using fallback programs');
+    programs.value = fallbackPrograms;
+  }
+  
+  try {
+    // Load partners
+    const partnersRes = await publicApi.getPartners();
+    if (partnersRes.data && partnersRes.data.length > 0) {
+      partners.value = partnersRes.data.map(p => ({
+        name: p.name,
+        logo: getImageUrl(p.logo)
+      }));
+    }
+  } catch (e) {
+    console.log('Error loading partners:', e);
+  }
+  
+  try {
+    // Load testimonials
+    const testimonialsRes = await publicApi.getTestimonials();
+    if (testimonialsRes.data && testimonialsRes.data.length > 0) {
+      const allTestimonials = testimonialsRes.data.map(t => ({
+        name: t.name,
+        jurusan: t.jurusan,
+        photo: getImageUrl(t.photo) || '/default-avatar.png',
+        quote: t.quote
+      }));
+      // Split into two rows
+      const mid = Math.ceil(allTestimonials.length / 2);
+      testimonialRow1.value = allTestimonials.slice(0, mid);
+      testimonialRow2.value = allTestimonials.slice(mid);
+    }
+  } catch (e) {
+    console.log('Error loading testimonials:', e);
+  }
+  
+  dataLoading.value = false;
+};
 
-// Testimonials data - Row 1
-const testimonialRow1 = ref([
-  { name: 'M. LUKMAN HAKIM', jurusan: 'ALUMNI TPM', photo: '/alumni/lukman.jpg', quote: 'SMK Yasmu bukan hanya ngajarin teori, tapi juga bikin aku siap terjun ke dunia kerja.' },
-  { name: 'APRI SUGIAN HADY', jurusan: 'ALUMNI TKR', photo: '/alumni/apri.jpg', quote: 'Di sini aku belajar banyak hal baru, termasuk percaya diri dan kerja tim.' },
-  { name: 'SITI KHOIROTUL', jurusan: 'ALUMNI DKV', photo: '/alumni/siti.jpg', quote: 'Jurusan DKV membuka banyak peluang kreatif untuk karirku.' },
-  { name: 'AHMAD FAUZI', jurusan: 'ALUMNI TAPL', photo: '/alumni/fauzi.jpg', quote: 'Ilmu yang didapat sangat aplikatif di dunia kerja.' }
-]);
-
-// Testimonials data - Row 2
-const testimonialRow2 = ref([
-  { name: 'AZIMATUL ILMIYAH', jurusan: 'ALUMNI MM', photo: '/alumni/azimatul.jpg', quote: 'Bangga pernah jadi bagian dari SMK Yasmu - tempat aku tumbuh dan berkembang.' },
-  { name: 'BUDI SANTOSO', jurusan: 'ALUMNI TPM', photo: '/alumni/budi.jpg', quote: 'Bekal praktek industri sangat membantu karir profesionalku.' },
-  { name: 'DEWI RAHMAWATI', jurusan: 'ALUMNI TKR', photo: '/alumni/dewi.jpg', quote: 'Guru-guru di sini sangat supportif dan membimbing dengan tulus.' },
-  { name: 'RENDI PRATAMA', jurusan: 'ALUMNI LOGISTIK', photo: '/alumni/rendi.jpg', quote: 'Program magang membuka jalan karirku di industri logistik.' }
-]);
+onMounted(() => {
+  loadData();
+});
 </script>
 
 <style scoped>
@@ -451,13 +527,29 @@ const testimonialRow2 = ref([
 .news-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
 .news-title-section h2 { font-size: 1.8rem; font-weight: 800; color: #155d27; margin: 0; }
 .news-title-section h3 { font-size: 1.5rem; font-weight: 700; color: #155d27; margin: 0; }
-.news-trophy { font-size: 4rem; }
+.news-trophy { color: #155d27; }
 .news-slider-wrapper { display: flex; align-items: center; gap: 1rem; position: relative; }
 .news-nav { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #155d27; background: #fff; color: #155d27; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; flex-shrink: 0; }
 .news-nav:hover { background: #155d27; color: #fff; }
 .news-cards { display: flex; gap: 1.5rem; flex: 1; overflow: hidden; }
 .news-card { flex: 1; min-width: 300px; background: #f8faf9; border-radius: 30px 5px 30px 5px; padding: 1.5rem; display: flex; flex-direction: column; }
-.news-badge { display: inline-block; background: #0e7490; color: #fff; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin-bottom: 1rem; width: fit-content; }
+.news-badge { 
+  display: inline-block; 
+  background: #e2e8f0; 
+  color: #475569; 
+  padding: 0.4rem 1rem; 
+  border-radius: 50px; 
+  font-size: 0.75rem; 
+  font-weight: 700; 
+  margin-bottom: 1rem; 
+  width: fit-content; 
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.news-badge.prestasi { background: #f59e0b; color: #fff; border: none; }
+.news-badge.kegiatan { background: #3b82f6; color: #fff; border: none; }
+.news-badge.pengumuman { background: #ef4444; color: #fff; border: none; }
+.news-badge.berita { background: #0ea5e9; color: #fff; border: none; }
 .news-card h4 { color: #155d27; font-size: 1.1rem; font-weight: 700; line-height: 1.4; margin-bottom: 0.75rem; }
 .news-card p { color: #64748b; font-size: 0.85rem; line-height: 1.5; margin-bottom: 1rem; flex: 1; }
 .news-image-wrapper { position: relative; border-radius: 20px; overflow: hidden; height: 180px; }

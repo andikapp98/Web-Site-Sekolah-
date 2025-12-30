@@ -41,11 +41,8 @@
         <li><a href="#" class="hover:text-green-700 transition">Alumni</a></li>
 
         <!-- Admin Menu (jika authenticated dan admin) -->
-        <li v-if="isAdmin" class="relative group">
-          <a href="#" class="hover:text-green-700 transition">Admin</a>
-          <ul class="absolute hidden group-hover:block bg-white shadow-md rounded-md mt-2 py-2 w-40 text-sm">
-            <li><router-link to="/admin/news/create" class="block px-4 py-2 hover:bg-green-50 hover:text-green-700">Tambah Berita</router-link></li>
-          </ul>
+        <li v-if="isAdmin">
+          <router-link to="/admin" class="hover:text-green-700 transition">Admin Panel</router-link>
         </li>
       </ul>
 
@@ -86,7 +83,7 @@
         <li><a href="#" class="block py-2">Jurusan</a></li>
         <li><a href="#" class="block py-2">Pembelajaran</a></li>
         <li><a href="#" class="block py-2">Alumni</a></li>
-        <li v-if="isAdmin"><router-link to="/admin/news/create" class="block py-2 text-green-700" @click="toggleMenu">Tambah Berita</router-link></li>
+        <li v-if="isAdmin"><router-link to="/admin" class="block py-2 text-green-700" @click="toggleMenu">Admin Panel</router-link></li>
         <li v-if="isAuthenticated" class="border-t pt-2">
           <span class="block py-2 text-sm text-gray-600">{{ userName }}</span>
           <button @click="handleLogout" class="block w-full text-left py-2 text-red-600 font-semibold">Logout</button>
